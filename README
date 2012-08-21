@@ -1,0 +1,78 @@
+= Ignite, a simple and robst init replacement
+
+ignite is a set of scripts to boot Arch Linux using runit for service
+supervision.
+
+== Benefits
+
+Robust, proven software: ignite is based on runit (which has been in
+development since 2001), a high quality implementation of ideas dating
+back to 1997 and earlier.
+
+Simple configuration: ignite allows you to configure Arch using
+/etc/rc.conf, like back in the old days.
+
+Low overhead: runit-run is a tiny, statically linked binary that only
+does the absolutely essential things.
+
+Non-intrusive: ignite wont replace your cron, getty or syslog-ng.  You
+are still free to do that yourself, if you want to.
+
+Portability: the scripts can be easily adapted to other Linux
+distribution, or even other unixish operating systems.
+
+Full control: ignite will never start anything you didn't tell it
+about.
+
+== Setup
+
+Install runit-musl and ignite from AUR.  Ensure that you have at least
+one agetty-tty1 process in DAEMONS.  Reboot with "init.sysv 6" if
+needed after installation.
+
+== Configuration
+
+ignite is configured using /etc/rc.conf and respects these variables:
+
+HARDWARECLOCK=UTC|local
+TIMEZONE=
+KEYMAP=
+CONSOLEFONT=
+CONSOLEMAP=
+MODULES=()  # prefix ! is not supported
+USEDMRAID=no|yes
+USEBTRFS=no|yes
+USELVM=no|yes
+HOSTNAME=   # or use /etc/hostname
+DAEMONS=(alsa syslog-ng crond)  # see below, prefix ! disables
+
+DAEMONS are checked against service directories in /etc/sv.  If they
+exist, they are started, else "/etc/rc.d/$DAEMON start" is run (for
+one-shot things).
+
+== How it works
+
+ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
+2012.05.1, back when they were plain bash scripts.  The "1 2 3"-
+scripts are very straight forward, you can read them easily.
+
+In Phase 2, $DAEMONS scripts are linked to /run/service, and
+runsvchdir picks them up.  You can fiddle around there yourself, but
+changes won't be persistent.  Use plain "runsv /etc/sv/$DAEMON" if you
+just want to try a daemon and not permanently enable it.
+
+== Limitations
+
+- No support for non-UTF8 environments
+- No crypttab support
+
+== Copyright
+
+runit is BSD licensed.
+
+ignite is in the public domain.
+
+To the extent possible under law, the creator of this work has waived
+all copyright and related or neighboring rights to this work.
+
+http://creativecommons.org/publicdomain/zero/1.0/
