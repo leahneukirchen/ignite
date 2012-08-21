@@ -1,0 +1,58 @@
+#!/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+exec 2> >(sed 's/^/:: /')
+set -v
+
+. /etc/rc.conf
+
+echo 'Waiting for services to stop...'
+sv -w196 force-stop /var/service/*
+sv exit /var/service/*
+
+stty onlcr
+echo -e 'Shutdown...\n'
+
+# handle single user mode here
+mkdir -p /run/service
+for daemon in "${DAEMONS[@]}"; do
+  case ${daemon:0:1} in
+    !) ;;
+    *) [[ -d /etc/sv/$daemon ]] || /etc/rc.d/$daemon stop;;
+  esac
+done
+
+[ -x /etc/rc.local.shutdown ] && /etc/rc.local.shutdown
+
+dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null
+
+halt -w  # for utmp
+
+vgchange --monitor n
+
+udevadm control --exit
+
+killall5 -15
+sleep 5
+killall5 -9
+sleep 1
+
+umount -a -t tmpfs,nosysfs,noproc
+swapoff -a
+umount -r -a
+
+#vgchange --sysinit -a n
+#dmsetup table | awk -F'[: ]' '$5 == "crypt" { system("cryptsetup remove " $1) }'
+#vgchange --sysinit -a n
+
+mount -o remount,ro /
+sleep 1
+sync
+
+if test -x /etc/runit/reboot
+  echo Rebooting...
+  reboot -d -f -i
+else
+  echo Power off...
+  poweroff -d -f -h -i
+fi

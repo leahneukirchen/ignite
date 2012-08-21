@@ -1,0 +1,24 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+. /etc/rc.conf
+
+# handle single user mode here
+mkdir -p /run/service
+for daemon in "${DAEMONS[@]}"; do
+  case ${daemon:0:1} in
+    !) ;;
+    *) if [[ -d /etc/sv/$daemon ]]; then
+	 ln -s /etc/sv/$daemon /run/service
+       else
+	 /etc/rc.d/$daemon start
+       fi;;
+  esac
+done	
+
+[ -x /etc/rc.local ] && /etc/rc.local
+
+runsvchdir /run/service
+
+exec env - PATH=$PATH \
+runsvdir -P /etc/runit/runsvdir/current 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'

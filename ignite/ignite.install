@@ -1,0 +1,17 @@
+post_install() {
+  post_upgrade
+  echo "ignite is installed, restart with /sbin/init.sysv 6 if you booted with sysvinit." 
+}
+
+post_upgrade() {
+  if [ ! -L /sbin/init ];then
+    echo "Moving /sbin/init to /sbin/init.sysv"
+    mv /sbin/init /sbin/init.sysv
+  fi
+  echo "Linking /sbin/init to runit-init"
+  ln -sf runit-init /sbin/init
+}
+
+post_remove() {
+  [ -L /sbin/init ] && [ -f /sbin/init.sysv ] && rm /sbin/init && mv /sbin/init.sysv /sbin/init
+}

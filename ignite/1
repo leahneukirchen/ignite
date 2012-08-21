@@ -1,0 +1,73 @@
+#!/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# re-exec this script with a controlling tty
+[ $(tty) = /dev/console ] &&
+  exec setsid sh -c 'exec bash /etc/runit/1 </dev/tty1 >/dev/tty1 2>&1'
+exec 2> >(sed 's/^/:: /')
+set -v
+
+trap 'sulogin -p' 2 3 6 ERR
+
+echo -e '\nArch Linux\nhttp://www.archlinux.org\n'
+
+. /etc/rc.conf
+
+mountpoint -q /proc    || mount -t proc proc /proc -o nosuid,noexec,nodev
+mountpoint -q /sys     || mount -t sysfs sys /sys -o nosuid,noexec,nodev
+mountpoint -q /run     || mount -t tmpfs run /run -o mode=0755,nosuid,nodev
+mountpoint -q /dev     || mount -t devtmpfs dev /dev -o mode=0755,nosuid
+
+mkdir -p -m0755 /run/lock /run/lock/lvm /run/lvm /run/user /dev/pts /dev/shm
+mountpoint -q /dev/pts || mount -n -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec
+mountpoint -q /dev/shm || mount -n -t tmpfs shm /dev/shm -o mode=1777,nosuid,nodev
+
+mount -o remount,ro /
+
+for i in /dev/tty[0-9]*;do
+  unicode_start <$i
+  [[ $CONSOLEFONT ]] && setfont ${CONSOLEMAP:+-m $CONSOLEMAP} $CONSOLEFONT -C $i
+done
+
+loadkeys -q ${KEYMAP:-us}
+
+TZ=$TIMEZONE hwclock --systz \
+  ${HARDWARECLOCK:+--$(echo $HARDWARECLOCK |tr A-Z a-z) --noadjfile}
+
+udevd --daemon
+udevadm trigger --action=add --type=subsystems
+udevadm trigger --action=add --type=devices
+modprobe -ab "" "${MODULES[@]}"
+udevadm settle
+
+ip link set up dev lo
+{ [[ -s /etc/hostname ]] && cat /etc/hostname || echo $HOSTNAME ;} >/proc/sys/kernel/hostname
+
+[[ $USEDMRAID = yes ]] && dmraid -i -ay
+[[ $USEBTRFS = yes ]] && btrfs device scan
+[[ $USELVM = yes ]] && vgchange --sysinit -a y
+#cryptsetup luksOpen /dev/mapper/vg1-data data
+#[[ $USELVM = yes ]] && vgchange --sysinit -a y
+
+[[ -f /forcefsck || " $(</proc/cmdline) " = *" forcefsck "* ]] && FORCEFSCK="-f"
+[[ -f /fastboot || " $(</proc/cmdline) " = *" fastboot "* ]] ||
+  fsck -A -T -C -a -t noopts=_netdev $FORCEFSCK
+# do something here on failure
+
+mount -o remount,rw /
+mount -a -t "nosysfs,nonfs,nonfs4,nosmbfs,nocifs" -O no_netdev
+
+[[ $USELVM = yes ]] && vgchange --monitor y
+
+swapon -a
+
+[[ $TIMEZONE ]] && ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+
+cp /var/lib/random-seed /dev/urandom
+
+install -m0664 -o root -g utmp /dev/null /run/utmp 
+rm -f /forcefsck /forcequotacheck /fastboot
+
+dmesg >/var/log/dmesg.log
+
+install -m0 /dev/null /etc/runit/stopit

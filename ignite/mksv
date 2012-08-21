@@ -1,0 +1,1 @@
+tar --numeric-owner --owner=0 --group=0 --exclude "*~" -czvf sv.tar.gz sv 
