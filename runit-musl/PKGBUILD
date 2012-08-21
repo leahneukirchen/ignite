@@ -1,0 +1,57 @@
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
+# Contributor: TJ Vanderpoel <tj@rubyists.com>
+# Contributor: Kevin Berry <kb@rubyists.com>
+# Contributor: Andrej Gelenberg <andrej.gelenberg@udo.edu>
+pkgname=runit-musl
+_pkgname=runit
+pkgver=2.1.1
+pkgrel=2
+pkgdesc="A service supervision scheme, compiled with musl"
+url="http://smarden.org/runit/"
+license=('custom')
+arch=('i686' 'x86_64')
+depends=('bash' 'util-linux')
+provides=("runit" "runit-dietlibc")
+conflicts=("runit" "runit-dietlibc")
+makedepends=('gcc' 'make' 'coreutils' 'sed' 'musl')
+install=runit-musl.install
+
+source=( http://smarden.org/runit/runit-$pkgver.tar.gz)
+sha256sums=('ffcf2d27b32f59ac14f2d4b0772a3eb80d9342685a2042b7fbbc472c07cf2a2c')
+
+build() {
+  cd $srcdir/admin/$_pkgname-$pkgver/src
+
+  echo "musl-gcc -D_GNU_SOURCE -static $CFLAGS" >conf-cc
+  echo "musl-gcc -s $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
+  # set default service path to /var/service
+  sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
+
+  make
+}
+
+check() {
+  cd $srcdir/admin/$_pkgname-$pkgver/src
+
+  make check
+}
+
+package() {
+  cd $srcdir/admin/$_pkgname-$pkgver/src
+
+  # default services
+  install -d -m0755 "$pkgdir/etc/runit/runsvdir/runit-default"
+  install -d -m0755 "$pkgdir/var"
+  ln -s ../etc/runit/runsvdir/current "${pkgdir}/var/service" || return 1
+
+  install -d -m0755 $pkgdir/sbin
+  install -s -m0755 $srcdir/admin/$_pkgname-$pkgver/src/{chpst,runit,runit-init,runsv,runsvchdir,runsvdir,sv,svlogd,utmpset} $pkgdir/sbin
+
+  install -d -m0755 $pkgdir/usr/share/man/man8
+  install -m0644 $srcdir/admin/$_pkgname-$pkgver/man/* $pkgdir/usr/share/man/man8
+
+  install -d -m0755 $pkgdir/usr/share/doc/runit
+  install -m0644 $srcdir/admin/$_pkgname-$pkgver/doc/*.html $pkgdir/usr/share/doc/runit
+
+  install -D $srcdir/admin/$_pkgname-$pkgver/package/COPYING $pkgdir/usr/share/licenses/runit-musl/COPYING
+}

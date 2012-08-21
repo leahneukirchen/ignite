@@ -1,0 +1,5 @@
+post_install()
+{
+  [ -L /etc/runit/runsvdir/current ] || ln -s runit-default /etc/runit/runsvdir/current
+  echo "runit-musl is installed, see /usr/share/doc/runit for more information"
+}
