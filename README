@@ -1,4 +1,4 @@
-= Ignite, a simple and robst init replacement
+= Ignite, a simple and robust init replacement
 
 ignite is a set of scripts to boot Arch Linux using runit for service
 supervision.
