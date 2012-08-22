@@ -2,4 +2,4 @@
 service=$(basename $(pwd))
 tty=${service/*-}
 
-exec setsid /sbin/agetty -8 -s 38400 $tty linux
+exec setsid /sbin/agetty -8 -s 38400 $([ $tty = tty1 ] && echo --noclear) $tty linux
