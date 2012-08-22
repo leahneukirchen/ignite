@@ -3,6 +3,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 . /etc/rc.conf
 
+sysctl --system
+
 # handle single user mode here
 mkdir -p /run/service
 for daemon in "${DAEMONS[@]}"; do
