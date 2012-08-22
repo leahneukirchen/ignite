@@ -66,7 +66,7 @@ swapon -a
 cp /var/lib/random-seed /dev/urandom
 
 install -m0664 -o root -g utmp /dev/null /run/utmp 
-rm -f /forcefsck /forcequotacheck /fastboot
+rm -f /etc/nologin /forcefsck /forcequotacheck /fastboot
 
 dmesg >/var/log/dmesg.log
 
