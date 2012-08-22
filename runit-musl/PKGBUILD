@@ -5,7 +5,7 @@
 pkgname=runit-musl
 _pkgname=runit
 pkgver=2.1.1
-pkgrel=2
+pkgrel=3
 pkgdesc="A service supervision scheme, compiled with musl"
 url="http://smarden.org/runit/"
 license=('custom')
@@ -16,8 +16,9 @@ conflicts=("runit" "runit-dietlibc")
 makedepends=('gcc' 'make' 'coreutils' 'sed' 'musl')
 install=runit-musl.install
 
-source=( http://smarden.org/runit/runit-$pkgver.tar.gz)
-sha256sums=('ffcf2d27b32f59ac14f2d4b0772a3eb80d9342685a2042b7fbbc472c07cf2a2c')
+source=( http://smarden.org/runit/runit-$pkgver.tar.gz _sv )
+sha256sums=('ffcf2d27b32f59ac14f2d4b0772a3eb80d9342685a2042b7fbbc472c07cf2a2c'
+            '2cd7f0167794f406ce7f3f2eff712722b84b8b2e7eaf2f1db45f36931d94d9e3')
 
 build() {
   cd $srcdir/admin/$_pkgname-$pkgver/src
@@ -54,4 +55,6 @@ package() {
   install -m0644 $srcdir/admin/$_pkgname-$pkgver/doc/*.html $pkgdir/usr/share/doc/runit
 
   install -D $srcdir/admin/$_pkgname-$pkgver/package/COPYING $pkgdir/usr/share/licenses/runit-musl/COPYING
+
+  install -D -m0644 $srcdir/_sv $pkgdir/usr/share/zsh/site-functions/_sv
 }
