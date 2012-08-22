@@ -27,8 +27,10 @@ about.
 == Setup
 
 Install runit-musl and ignite from AUR.  Ensure that you have at least
-one agetty-tty1 process in DAEMONS.  Reboot with "init.sysv 6" if
-needed after installation.
+one agetty-tty1 process in DAEMONS.  Note that services mentioned in
+/etc/inittab will not be picked up anymore.
+
+Reboot with "init.sysv 6" after installation if you booted with sysvinit.
 
 == Configuration
 
@@ -56,15 +58,25 @@ ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
 2012.05.1, back when they were plain bash scripts.  The "1 2 3"-
 scripts are very straight forward, you can read them easily.
 
-In Phase 2, $DAEMONS scripts are linked to /run/service, and
+Phase 1 configures the system initially.  It can be interrupted at
+almost any time by pressing C-c, which will drop you into a sulogin,
+so you can change stuff.  Upon exiting this emergency shell, booting
+resumes at that step
+
+In phase 2, $DAEMONS scripts are linked to /run/service, and
 runsvchdir picks them up.  You can fiddle around there yourself, but
 changes won't be persistent.  Use plain "runsv /etc/sv/$DAEMON" if you
 just want to try a daemon and not permanently enable it.
+
+Use shutdown/halt/reboot to enter phase 3, which stops all services,
+runs the "/etc/rc.d/$DAEMON stop" actions when needed, unmounts
+everything and turns off/reboots the machine.
 
 == Limitations
 
 - No support for non-UTF8 environments
 - No crypttab support
+- No single user mode yet (but planned)
 
 == Copyright
 
