@@ -1,5 +1,0 @@
-#!/bin/sh
-echo stdout
-echo stderr >/dev/stderr
-
-sleep 10

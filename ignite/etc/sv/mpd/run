@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/mpd --no-daemon /etc/mpd.conf
