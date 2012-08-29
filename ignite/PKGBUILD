@@ -1,38 +1,45 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
-pkgname=ignite
-pkgver=2012.08.20
+pkgname=ignite-git
+pkgver=20120829
 pkgrel=1
 pkgdesc="A replacement for sysvinit based upon runit"
 url="http://smarden.org/runit/"
 license=('custom')
 arch=('any')
 depends=('bash' 'util-linux' 'procps-ng' 'runit-musl')
-makedepends=('gcc' 'make' 'coreutils' 'sed')
+makedepends=('gcc' 'make' 'coreutils' 'sed' 'git')
 install=ignite.install
 
-source=(1 2 3 ctrlaltdel sv.tar.gz)
-sha256sums=('c55799a9a56223b40319042fe4cf4a160b65a263d8988f606dd47a6dea4e844d'
-            'bce65fdb6023930846541b43e127744b72844979f3dc25cc7c78c07d3c363362'
-            '61ccd5ee517320677c09ecdd0e7ce0df0baba2d0a966d91a995cb803bd6dc6f6'
-            '33ee2d04da64bc488315648b809465ec80ce4813bc0fbbc762f4f2d1befdcfb4'
-            'afd5b11db5fe6eb5b3cca351df232d6f388cd8999bf95895cef3a59d6fa12dfe')
+_gitroot=https://github.com/chneukirchen/ignite.git
+_gitname=ignite
+
+# /etc/sv gets added below to this!
 backup=('etc/runit/1'
 	'etc/runit/2'
 	'etc/runit/3'
         'etc/runit/ctrlaltdel')
 
-package() {
-  install -D -m0755 $srcdir/1 $pkgdir/etc/runit/1
-  install -D -m0755 $srcdir/2 $pkgdir/etc/runit/2
-  install -D -m0755 $srcdir/3 $pkgdir/etc/runit/3
-  install -D -m0755 $srcdir/ctrlaltdel $pkgdir/etc/runit/ctrlaltdel
-  
-  tar xzvf $srcdir/sv.tar.gz -C $pkgdir/etc --no-same-owner
+build() {
+  cd "$srcdir"
+  msg "Connecting to GIT server...."
 
-  install -D -m0755 /dev/null $pkgdir/usr/share/licenses/$pkgname/COPYING
-  cat >$pkgdir/usr/share/licenses/$pkgname/COPYING <<EOF
-To the extent possible under law, the creator of this work has waived
-all copyright and related or neighboring rights to this work.
-http://creativecommons.org/publicdomain/zero/1.0/
-EOF
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files are updated."
+  else
+    git clone "$_gitroot" "$_gitname"
+  fi
+
+  msg "GIT checkout done or server timeout"
+}
+
+package() {
+  cd "$srcdir/$_gitname/ignite"
+
+  backup+=(etc/sv/*/run)
+
+  cp -r etc $pkgdir/
+  chmod -R u=rwX,g=rX,o=rX $pkgdir/etc
+  
+  install -D -m0755 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
 }
