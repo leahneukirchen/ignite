@@ -18,7 +18,7 @@ install=runit-musl.install
 
 source=( http://smarden.org/runit/runit-$pkgver.tar.gz _sv )
 sha256sums=('ffcf2d27b32f59ac14f2d4b0772a3eb80d9342685a2042b7fbbc472c07cf2a2c'
-            '2cd7f0167794f406ce7f3f2eff712722b84b8b2e7eaf2f1db45f36931d94d9e3')
+            'b00533686ee7d1747ebd1808933bc633161c9485cde2e590f613e8d5c5604db2')
 
 build() {
   cd $srcdir/admin/$_pkgname-$pkgver/src

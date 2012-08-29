@@ -35,8 +35,8 @@ cmds)
         check
     ret=0;;
 args)
-    services=( /service/*(/N:t) )
-    (( $#services )) && _values -O services -w 'services' && ret=0
+    services=( /service/*(-/N:t) )
+    (( $#services )) && _values services $services && ret=0
     [[ $words[CURRENT] = */* ]] && _directories && ret=0
     ;;
 esac
