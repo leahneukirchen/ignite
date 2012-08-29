@@ -54,6 +54,19 @@ DAEMONS are checked against service directories in /etc/sv.  If they
 exist, they are started, else "/etc/rc.d/$DAEMON start" is run (for
 one-shot things).
 
+Other runlevels can be defined in /etc/rc.conf as well by setting
+$DAEMONS_foo to an array of services.  You can boot these by adding
+runlevel=foo to the kernel command line.  There is a predefined
+runlevel "single" which also can be triggered by appending "single",
+"1", "S", or "-s" to the kernel command line.  It is predefined to
+only start the agettys.  The "emergency" runlevel (or "-b") can be
+used to get a root shell in stage 2.
+
+You can change runlevels in the running system by executing
+"runsvchdir /run/service.$runlevel".  This will shut down all services
+that are not in the new runlevel, and start the missing ones.
+Services defined in both runlevels will keep running.
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
@@ -77,8 +90,7 @@ everything and turns off/reboots the machine.
 == Limitations
 
 - No support for non-UTF8 environments
-- No crypttab support
-- No single user mode yet (but planned)
+- No crypttab support (add luksOpen manually for now)
 
 == Copyright
 

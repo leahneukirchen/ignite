@@ -1,26 +1,44 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
+export DAEMONS_single=(agetty-tty{1,2,3,4,5,6})
+
 . /etc/rc.conf
+
+curlevel=
+for w in $(</proc/cmdline); do
+  case $w in
+    single|1|S|-s) curlevel=single;;
+    emergency|-b) curlevel=emergency;
+                  sulogin -p;;
+    runlevel=*) curlevel=${w#*runlevel=};;
+  esac
+done
+[[ -z $curlevel ]] && svdir=/run/service || svdir=/run/service.$curlevel
 
 sysctl --system
 
-# handle single user mode here
-mkdir -p /run/service
-for daemon in "${DAEMONS[@]}"; do
-  case ${daemon:0:1} in
-    !) ;;
-    *) if [[ -d /etc/sv/$daemon ]]; then
-	 ln -s /etc/sv/$daemon /run/service
-       else
-	 /etc/rc.d/$daemon start
-       fi;;
-  esac
-done	
+echo ${!DAEMONS_*}
+for runlevel in DAEMONS ${!DAEMONS_*}; do
+  d=/run/service.${runlevel#DAEMONS_}
+  [[ $runlevel == DAEMONS ]] && d=/run/service
+  mkdir -p $d
+  ref="${runlevel}[@]"
+  for daemon in "${!ref}"; do
+    case ${daemon:0:1} in
+      !) ;;
+      *) if [[ -d /etc/sv/$daemon ]]; then 
+	   ln -s /etc/sv/$daemon $d
+         else
+	   [[ $curlevel == $runlevel ]] && cur/etc/rc.d/$daemon start
+         fi
+    esac
+  done
+done
 
 [ -x /etc/rc.local ] && /etc/rc.local
 
-runsvchdir /run/service
+runsvchdir $svdir
 
 exec env - PATH=$PATH \
 runsvdir -P /etc/runit/runsvdir/current 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'
