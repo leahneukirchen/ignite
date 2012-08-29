@@ -26,7 +26,9 @@ about.
 
 == Setup
 
-Install runit-musl and ignite from AUR.  Ensure that you have at least
+READ THIS CAREFULLY OR YOUR SYSTEM WILL NOT BOOT SUCCESSFULLY.
+
+Install runit-musl and ignite-git from AUR.  Ensure that you have at least
 one agetty-tty1 process in DAEMONS.  Note that services mentioned in
 /etc/inittab will not be picked up anymore.
 
