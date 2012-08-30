@@ -36,9 +36,9 @@ killall5 -15
 i=10; while killall5 -18 && (( i-- )) ; do echo -n .; sleep 0.5; done; echo
 killall5 -9
 
-umount -a -t tmpfs,nosysfs,noproc
+umount -a -t tmpfs,nosysfs,noproc,nodevtmpfs
 swapoff -a
-umount -r -a
+umount -r -a -t nosysfs,noproc,nodevtmpfs
 
 [[ $USELVM = yes ]] && vgchange --sysinit -a n
 #cryptsetup luksClose data
