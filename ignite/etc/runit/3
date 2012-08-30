@@ -28,7 +28,7 @@ dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null
 
 halt -w  # for utmp
 
-vgchange --monitor n
+[[ $USELVM = yes ]] && vgchange --monitor n
 
 udevadm control --exit
 
@@ -41,9 +41,9 @@ umount -a -t tmpfs,nosysfs,noproc
 swapoff -a
 umount -r -a
 
-#vgchange --sysinit -a n
-#dmsetup table | awk -F'[: ]' '$5 == "crypt" { system("cryptsetup remove " $1) }'
-#vgchange --sysinit -a n
+[[ $USELVM = yes ]] && vgchange --sysinit -a n
+#cryptsetup luksClose data
+#[[ $USELVM = yes ]] && vgchange --sysinit -a n
 
 mount -o remount,ro /
 sleep 1

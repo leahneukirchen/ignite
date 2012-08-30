@@ -90,7 +90,7 @@ everything and turns off/reboots the machine.
 == Limitations
 
 - No support for non-UTF8 environments
-- No crypttab support (add luksOpen manually for now)
+- No crypttab support (add luksOpen/luksClose manually for now)
 
 == Copyright
 
