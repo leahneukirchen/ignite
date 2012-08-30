@@ -7,7 +7,8 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 exec 2> >(sed 's/^/:: /')
 set -v
 
-trap 'sulogin -p' 2 3 6 ERR
+trap : INT TSTP QUIT
+trap 'sulogin -p </dev/tty1 >/dev/tty1 2>&1' ERR
 
 echo -e '\nArch Linux\nhttp://www.archlinux.org\n'
 
