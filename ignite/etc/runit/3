@@ -33,9 +33,8 @@ halt -w  # for utmp
 udevadm control --exit
 
 killall5 -15
-sleep 5
+i=10; while killall5 -18 && (( i-- )) ; do echo -n .; sleep 0.5; done; echo
 killall5 -9
-sleep 1
 
 umount -a -t tmpfs,nosysfs,noproc
 swapoff -a
