@@ -51,8 +51,8 @@ ip link set up dev lo
 
 [[ -f /forcefsck || " $(</proc/cmdline) " = *" forcefsck "* ]] && FORCEFSCK="-f"
 [[ -f /fastboot || " $(</proc/cmdline) " = *" fastboot "* ]] ||
-  fsck -A -T -C -a -t noopts=_netdev $FORCEFSCK
-# do something here on failure
+  fsck -A -T -C -a -t noopts=_netdev $FORCEFSCK ||
+  (( ($? | 33) == 33 ))  # continue boot on corrected errors or cancelled fsck.
 
 mount -o remount,rw /
 mount -a -t "nosysfs,nonfs,nonfs4,nosmbfs,nocifs" -O no_netdev
