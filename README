@@ -59,8 +59,9 @@ $DAEMONS_foo to an array of services.  You can boot these by adding
 runlevel=foo to the kernel command line.  There is a predefined
 runlevel "single" which also can be triggered by appending "single",
 "1", "S", or "-s" to the kernel command line.  It is predefined to
-only start the agettys.  The "emergency" runlevel (or "-b") can be
-used to get a root shell in stage 2.
+only start sulogin on tty1, and takes extra precaution to allow the
+root filesystem to be (re-)mountable read-only.  The "emergency"
+runlevel (or "-b") can be used to get a root shell in stage 2.
 
 You can change runlevels in the running system by executing
 "runsvchdir /run/service.$runlevel".  This will shut down all services
