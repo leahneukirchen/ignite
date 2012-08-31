@@ -38,7 +38,7 @@ TZ=$TIMEZONE hwclock --systz \
 udevd --daemon
 udevadm trigger --action=add --type=subsystems
 udevadm trigger --action=add --type=devices
-modprobe -ab "" "${MODULES[@]}"
+modprobe -ab "" "${MODULES[@]}" || true
 udevadm settle
 
 ip link set up dev lo
