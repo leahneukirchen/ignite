@@ -11,11 +11,13 @@ sv -w196 force-stop /var/service/*
 sv exit /var/service/*
 
 stty onlcr
-echo -e 'Shutdown...\n'
+echo Shutdown...
 
-# handle single user mode here
-mkdir -p /run/service
-for daemon in "${DAEMONS[@]}"; do
+runlevel=$(readlink -f /etc/runit/runsvdir/current)
+runlevel=${runlevel#/run/service.}
+[[ $runlevel = /run/service ]] && ref="DAEMONS[@]" || ref="DAEMONS_${runlevel}[@]"
+
+for daemon in "${!ref}"; do
   case ${daemon:0:1} in
     !) ;;
     *) [[ -d /etc/sv/$daemon ]] || /etc/rc.d/$daemon stop;;
