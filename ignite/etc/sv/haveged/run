@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/sbin/haveged -F -w 1024 -v 1
