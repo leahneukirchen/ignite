@@ -19,7 +19,7 @@ mountpoint -q /sys     || mount -t sysfs sys /sys -o nosuid,noexec,nodev
 mountpoint -q /run     || mount -t tmpfs run /run -o mode=0755,nosuid,nodev
 mountpoint -q /dev     || mount -t devtmpfs dev /dev -o mode=0755,nosuid
 
-mkdir -p -m0755 /run/lock /run/lock/lvm /run/lvm /run/user /dev/pts /dev/shm
+mkdir -p -m0755 /run/runit /run/lock /run/lock/lvm /run/lvm /run/user /dev/pts /dev/shm
 mountpoint -q /dev/pts || mount -n -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec
 mountpoint -q /dev/shm || mount -n -t tmpfs shm /dev/shm -o mode=1777,nosuid,nodev
 
@@ -72,4 +72,4 @@ rm -f /etc/nologin /forcefsck /forcequotacheck /fastboot
 
 dmesg >/var/log/dmesg.log
 
-install -m0 /dev/null /etc/runit/stopit
+install -m0 /dev/null /run/runit/stopit

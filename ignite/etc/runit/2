@@ -16,13 +16,12 @@ for w in $(</proc/cmdline); do
     runlevel=*) curlevel=${w#*runlevel=};;
   esac
 done
-[[ $curlevel == default ]] && svdir=/run/service || svdir=/run/service.$curlevel
 
 sysctl --system
 
 for runlevel in ${!DAEMONS_*}; do
   runlevel=${runlevel#DAEMONS_}
-  [[ $runlevel == default ]] && d=/run/service || d=/run/service.$runlevel
+  d=/run/runit/runsvdir/$runlevel
   mkdir -p $d
   ref="DAEMONS_${runlevel}[@]"
   for daemon in "${!ref}"; do
@@ -39,7 +38,7 @@ done
 
 [ -x /etc/rc.local ] && /etc/rc.local
 
-runsvchdir $svdir
+ln -s /run/runit/runsvdir/$curlevel /run/runit/runsvdir/current
 
 exec env - PATH=$PATH \
-runsvdir -P /etc/runit/runsvdir/current 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'
+runsvdir -P /run/runit/runsvdir/current 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'

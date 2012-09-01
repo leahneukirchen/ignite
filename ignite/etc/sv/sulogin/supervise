@@ -1,1 +1,1 @@
-/run/supervise.sulogin
+/run/runit/supervise.sulogin

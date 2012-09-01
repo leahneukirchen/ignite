@@ -41,9 +41,8 @@ package() {
   cd $srcdir/admin/$_pkgname-$pkgver/src
 
   # default services
-  install -d -m0755 "$pkgdir/etc/runit/runsvdir/runit-default"
   install -d -m0755 "$pkgdir/var"
-  ln -s ../etc/runit/runsvdir/current "${pkgdir}/var/service" || return 1
+  ln -s ../run/runit/runsvdir/current "${pkgdir}/var/service" || return 1
 
   install -d -m0755 $pkgdir/sbin
   install -s -m0755 $srcdir/admin/$_pkgname-$pkgver/src/{chpst,runit,runit-init,runsv,runsvchdir,runsvdir,sv,svlogd,utmpset} $pkgdir/sbin
