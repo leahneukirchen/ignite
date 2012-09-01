@@ -22,7 +22,7 @@ Portability: the scripts can be easily adapted to other Linux
 distribution, or even other unixish operating systems.
 
 Full control: ignite will never start anything you didn't tell it
-about.
+about.  ignite also supports read-only root file systems.
 
 == Setup
 
@@ -64,7 +64,7 @@ root filesystem to be (re-)mountable read-only.  The "emergency"
 runlevel (or "-b") can be used to get a root shell in stage 2.
 
 You can change runlevels in the running system by executing
-"runsvchdir /run/service.$runlevel".  This will shut down all services
+"runsvchdir $runlevel".  This will shut down all services
 that are not in the new runlevel, and start the missing ones.
 Services defined in both runlevels will keep running.
 
@@ -79,14 +79,14 @@ almost any time by pressing C-c, which will drop you into a sulogin,
 so you can change stuff.  Upon exiting this emergency shell, booting
 resumes at that step
 
-In phase 2, $DAEMONS scripts are linked to /run/service, and
+In phase 2, $DAEMONS scripts are linked to /run/runit/runsvdir/*, and
 runsvchdir picks them up.  You can fiddle around there yourself, but
 changes won't be persistent.  Use plain "runsv /etc/sv/$DAEMON" if you
 just want to try a daemon and not permanently enable it.
 
 Use shutdown/halt/reboot to enter phase 3, which stops all services,
 runs the "/etc/rc.d/$DAEMON stop" actions when needed, unmounts
-everything and turns off/reboots the machine.
+everything and lets runit turn off/reboot the machine.
 
 == Limitations
 
