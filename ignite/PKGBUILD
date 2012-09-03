@@ -1,12 +1,12 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=ignite-git
-pkgver=20120829
+pkgver=20120903
 pkgrel=1
 pkgdesc="A replacement for sysvinit based upon runit"
 url="http://smarden.org/runit/"
 license=('custom')
 arch=('any')
-depends=('bash' 'util-linux' 'procps-ng' 'runit-musl')
+depends=('bash' 'util-linux' 'procps-ng' 'runit-musl' 'sysvinit-tools')
 makedepends=('gcc' 'make' 'coreutils' 'sed' 'git')
 provides=('ignite')
 replaces=('ignite-git')
