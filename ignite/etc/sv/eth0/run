@@ -1,2 +1,2 @@
 #!/bin/sh
-exec dhcpcd eth0 -B
+exec dhcpcd -qLB -t 10 eth0
