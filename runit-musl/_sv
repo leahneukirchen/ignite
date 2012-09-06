@@ -2,7 +2,7 @@
 
 # completion for runit sv(1)
 # Christian Neukirchen <chneukirchen@gmail.com>
-# runit 2.1.1, services in /service are completed by default
+# runit 2.1.1, services in /var/service are completed by default
 
 local ret=1 services
 
@@ -35,7 +35,7 @@ cmds)
         check
     ret=0;;
 args)
-    services=( /service/*(-/N:t) )
+    services=( /var/service/*(-/N:t) )
     (( $#services )) && _values services $services && ret=0
     [[ $words[CURRENT] = */* ]] && _directories && ret=0
     ;;
