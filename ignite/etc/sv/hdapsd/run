@@ -1,0 +1,14 @@
+#!/bin/bash
+[ -f /etc/conf.d/hdapsd ] && . /etc/conf.d/hdapsd
+HDAPSD_OPTS="-l"
+if [ -z "$DEVICE" ]; then
+  HDAPSD_OPTS="$HDAPSD_OPTS -d sda"
+else
+  for i in $DEVICE[@]; do
+    HDAPSD_OPTS="$HDAPSD_OPTS -d $i"
+  done
+fi
+[ ! -z "$SENSITIVITY" ] && HDAPSD_OPTS="$HDAPSD_OPTS -s $SENSITIVITY"
+[ "$ADAPTIVE" = "yes" ] && HDAPSD_OPTS="$HDAPSD_OPTS -a"
+[ "$FORCE" = "yes" ]    && HDAPSD_OPTS="$HDAPSD_OPTS -f"
+exec /usr/sbin/hdapsd $HDAPSD_OPTS
