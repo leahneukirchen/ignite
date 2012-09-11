@@ -1,0 +1,3 @@
+#!/bin/sh
+sv check dbus >/dev/null &&
+exec avahi-daemon -s
