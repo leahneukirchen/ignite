@@ -5,7 +5,7 @@
 pkgname=runit-musl
 _pkgname=runit
 pkgver=2.1.1
-pkgrel=3
+pkgrel=4
 pkgdesc="A service supervision scheme, compiled with musl"
 url="http://smarden.org/runit/"
 license=('custom')
@@ -17,13 +17,13 @@ makedepends=('gcc' 'make' 'coreutils' 'sed' 'musl')
 
 source=( http://smarden.org/runit/runit-$pkgver.tar.gz _sv )
 sha256sums=('ffcf2d27b32f59ac14f2d4b0772a3eb80d9342685a2042b7fbbc472c07cf2a2c'
-            'b00533686ee7d1747ebd1808933bc633161c9485cde2e590f613e8d5c5604db2')
+            'c8f08a977595d16b8afd12e49048c061c483e4408bfa6f66e72af4a72d279e3d')
 
 build() {
   cd $srcdir/admin/$_pkgname-$pkgver/src
 
-  echo "musl-gcc -D_GNU_SOURCE -static $CFLAGS" >conf-cc
-  echo "musl-gcc -s $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
+  echo "musl-gcc -D_GNU_SOURCE $CFLAGS" >conf-cc
+  echo "musl-gcc -static -s $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
   # set default service path to /var/service
   sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
 
