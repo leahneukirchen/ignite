@@ -34,6 +34,11 @@ one agetty-tty1 process in DAEMONS.  Note that services mentioned in
 
 Reboot with "init.sysv 6" after installation if you booted with sysvinit.
 
+I recommend putting this line in /etc/pacman.conf to prevent sysvinit
+from overwriting runit-init:
+
+  NoUpgrade = sbin/init
+
 == Configuration
 
 ignite is configured using /etc/rc.conf and respects these variables:
