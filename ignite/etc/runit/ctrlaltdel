@@ -5,4 +5,4 @@ PATH=/bin:/usr/bin
 # echo 'disabled.' ; exit
 touch /etc/runit/stopit
 chmod 100 /etc/runit/stopit && echo System is going down now... | wall
-/bin/sleep 5
+sleep 5
