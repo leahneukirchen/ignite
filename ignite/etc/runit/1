@@ -28,7 +28,7 @@ mount -o remount,ro /
 for i in /dev/tty[0-9]*;do
   unicode_start <$i
   [[ $CONSOLEFONT ]] && setfont ${CONSOLEMAP:+-m $CONSOLEMAP} $CONSOLEFONT -C $i
-done
+done &
 
 loadkeys -q ${KEYMAP:-us}
 
