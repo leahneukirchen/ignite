@@ -1,15 +1,14 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=ignite-git
-pkgver=20120903
+pkgver=20121016
 pkgrel=1
 pkgdesc="A replacement for sysvinit based upon runit"
 url="http://smarden.org/runit/"
 license=('custom')
 arch=('any')
 depends=('bash' 'util-linux' 'procps-ng' 'runit-musl' 'sysvinit-tools')
-makedepends=('gcc' 'make' 'coreutils' 'sed' 'git')
+makedepends=('gcc' 'make' 'coreutils' 'sed' 'git' 'musl')
 provides=('ignite')
-replaces=('ignite-git')
 install=ignite.install
 
 _gitroot=https://github.com/chneukirchen/ignite.git
@@ -33,6 +32,9 @@ build() {
   fi
 
   msg "GIT checkout done or server timeout"
+
+  cd "$srcdir/$_gitname/ignite/util"
+  make
 }
 
 package() {
@@ -42,6 +44,9 @@ package() {
 
   cp -r etc $pkgdir/
   chmod -R u=rwX,g=rX,o=rX $pkgdir/etc
+
+  install -D -m0755 util/pause $pkgdir/usr/bin/pause
+  install -D -m0644 util/pause.1 $pkgdir/usr/share/man/man1/pause.1
   
   install -D -m0755 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
 }

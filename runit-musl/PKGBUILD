@@ -23,7 +23,7 @@ build() {
   cd $srcdir/admin/$_pkgname-$pkgver/src
 
   echo "musl-gcc -D_GNU_SOURCE $CFLAGS" >conf-cc
-  echo "musl-gcc -static -s $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
+  echo "musl-gcc  $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
   # set default service path to /var/service
   sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' sv.c
 
