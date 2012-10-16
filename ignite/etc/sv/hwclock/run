@@ -1,0 +1,2 @@
+#!/bin/sh
+exec chpst -b hwclock pause
