@@ -1,5 +1,5 @@
 CC=musl-gcc
-CFLAGS=-Wall -static -Os -idirafter /usr/include
+CFLAGS=-Wall -static -Os -Wl,-z -Wl,noexecstack -idirafter /usr/include
 
 all: pause
 
