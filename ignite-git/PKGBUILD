@@ -1,0 +1,53 @@
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
+pkgname=ignite-git
+pkgver=20121017
+pkgrel=1
+pkgdesc="A replacement for sysvinit based upon runit, Git HEAD version"
+url="https://github.com/chneukirchen/ignite"
+license=('custom')
+arch=('i686' 'x86_64' 'arm')
+depends=('bash' 'util-linux' 'procps-ng' 'runit-musl' 'sysvinit-tools')
+makedepends=('gcc' 'make' 'coreutils' 'sed' 'git' 'musl')
+provides=('ignite')
+install=ignite.install
+
+_gitroot=https://github.com/chneukirchen/ignite.git
+_gitname=ignite
+
+# /etc/sv gets added below to this!
+backup=('etc/runit/1'
+	'etc/runit/2'
+	'etc/runit/3'
+        'etc/runit/ctrlaltdel')
+
+build() {
+  cd "$srcdir"
+  msg "Connecting to GIT server...."
+
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files are updated."
+  else
+    git clone "$_gitroot" "$_gitname"
+  fi
+
+  msg "GIT checkout done or server timeout"
+
+  cd "$srcdir/$_gitname/ignite/util"
+  make
+}
+
+package() {
+  cd "$srcdir/$_gitname/ignite"
+
+  backup+=(etc/sv/*/run)
+  backup+=(etc/sv/*/finish)
+
+  cp -r etc $pkgdir/
+  chmod -R u=rwX,g=rX,o=rX $pkgdir/etc
+
+  install -D -m0755 util/pause $pkgdir/usr/bin/pause
+  install -D -m0644 util/pause.1 $pkgdir/usr/share/man/man1/pause.1
+  
+  install -D -m0755 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+}

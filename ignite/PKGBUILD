@@ -1,18 +1,16 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
-pkgname=ignite-git
-pkgver=20121016
+pkgname=ignite
+pkgver=0.9.0
 pkgrel=1
 pkgdesc="A replacement for sysvinit based upon runit"
-url="http://smarden.org/runit/"
+url="https://github.com/chneukirchen/ignite"
 license=('custom')
-arch=('any')
+arch=('i686' 'x86_64' 'arm')
 depends=('bash' 'util-linux' 'procps-ng' 'runit-musl' 'sysvinit-tools')
-makedepends=('gcc' 'make' 'coreutils' 'sed' 'git' 'musl')
-provides=('ignite')
+makedepends=('gcc' 'make' 'coreutils' 'sed' 'musl')
 install=ignite.install
-
-_gitroot=https://github.com/chneukirchen/ignite.git
-_gitname=ignite
+source=(http://chneukirchen.org/releases/$pkgname-$pkgver.tar.gz)
+sha256sums=('f6757e125936f10fcc8c689abc15842cac5b3bd3bc36c93a4232fc0b07a9d365')
 
 # /etc/sv gets added below to this!
 backup=('etc/runit/1'
@@ -21,26 +19,15 @@ backup=('etc/runit/1'
         'etc/runit/ctrlaltdel')
 
 build() {
-  cd "$srcdir"
-  msg "Connecting to GIT server...."
-
-  if [[ -d "$_gitname" ]]; then
-    cd "$_gitname" && git pull origin
-    msg "The local files are updated."
-  else
-    git clone "$_gitroot" "$_gitname"
-  fi
-
-  msg "GIT checkout done or server timeout"
-
-  cd "$srcdir/$_gitname/ignite/util"
+  cd "$srcdir/$pkgname-$pkgver/util"
   make
 }
 
 package() {
-  cd "$srcdir/$_gitname/ignite"
+  cd "$srcdir/$pkgname-$pkgver"
 
   backup+=(etc/sv/*/run)
+  backup+=(etc/sv/*/finish)
 
   cp -r etc $pkgdir/
   chmod -R u=rwX,g=rX,o=rX $pkgdir/etc
@@ -48,5 +35,5 @@ package() {
   install -D -m0755 util/pause $pkgdir/usr/bin/pause
   install -D -m0644 util/pause.1 $pkgdir/usr/share/man/man1/pause.1
   
-  install -D -m0755 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+  install -D -m0755 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
 }
