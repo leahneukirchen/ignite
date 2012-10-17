@@ -1,7 +1,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=ignite-git
 pkgver=20121017
-pkgrel=1
+pkgrel=2
 pkgdesc="A replacement for sysvinit based upon runit, Git HEAD version"
 url="https://github.com/chneukirchen/ignite"
 license=('custom')
@@ -9,6 +9,7 @@ arch=('i686' 'x86_64' 'arm')
 depends=('bash' 'util-linux' 'procps-ng' 'runit-musl' 'sysvinit-tools')
 makedepends=('gcc' 'make' 'coreutils' 'sed' 'git' 'musl')
 provides=('ignite')
+conflicts=('ignite')
 install=ignite.install
 
 _gitroot=https://github.com/chneukirchen/ignite.git

@@ -5,7 +5,7 @@
 pkgname=runit-musl
 _pkgname=runit
 pkgver=2.1.1
-pkgrel=4
+pkgrel=5
 pkgdesc="A service supervision scheme, compiled with musl"
 url="http://smarden.org/runit/"
 license=('custom')
