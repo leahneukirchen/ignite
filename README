@@ -53,11 +53,21 @@ USEDMRAID=no|yes
 USEBTRFS=no|yes
 USELVM=no|yes
 HOSTNAME=   # or use /etc/hostname
+
+INTERFACE=  # typically eth0 for ethernet
+ADDRESS=
+NETMASK=    # default: 24
+GATEWAY=
+BROADCAST=
+
 DAEMONS=(alsa syslog-ng crond)  # see below, prefix ! disables
 
 DAEMONS are checked against service directories in /etc/sv.  If they
 exist, they are started, else "/etc/rc.d/$DAEMON start" is run (for
 one-shot things).
+
+For DHCP instead of fixed local ip you can leave the network config
+blank and add "eth0" to the DEAMONS array.
 
 Other runlevels can be defined in /etc/rc.conf as well by setting
 $DAEMONS_foo to an array of services.  You can boot these by adding
