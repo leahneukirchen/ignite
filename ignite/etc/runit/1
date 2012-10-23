@@ -44,6 +44,12 @@ udevadm settle
 ip link set up dev lo
 { [[ -s /etc/hostname ]] && cat /etc/hostname || echo $HOSTNAME ;} >/proc/sys/kernel/hostname
 
+[[ $INTERFACE && $ADDRESS && $GATEWAY && $NETMASK && $BROADCAST ]] &&
+  { ip link set dev $INTERFACE up &&
+    ip addr add $ADDRESS/$NETMASK broadcast $BROADCAST dev $INTERFACE &&
+    ip route add default via $GATEWAY
+  }
+
 [[ $USEDMRAID = yes ]] && dmraid -i -ay
 [[ $USEBTRFS = yes ]] && btrfs device scan
 [[ $USELVM = yes ]] && vgchange --sysinit -a y
