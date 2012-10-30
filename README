@@ -73,6 +73,11 @@ You can change runlevels in the running system by executing
 that are not in the new runlevel, and start the missing ones.
 Services defined in both runlevels will keep running.
 
+== Additional Arch configuration points
+
+* If you use syslog-ng, ensure that you source from
+  'unix-dgram("/dev/log");' in /etc/syslog-ng/syslog-ng.conf.
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
