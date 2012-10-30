@@ -78,6 +78,9 @@ Services defined in both runlevels will keep running.
 * If you use syslog-ng, ensure that you source from
   'unix-dgram("/dev/log");' in /etc/syslog-ng/syslog-ng.conf.
 
+* Keep sysvinit and sysvinit-tools installed, halt/reboot/shutdown
+  will keep working, the warning about /dev/initctl can be ignored.
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
