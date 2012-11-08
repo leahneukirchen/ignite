@@ -1,0 +1,2 @@
+#!/bin/sh
+exec logger -t wpa_supplicant-$(cat ../interface)

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec dhcpcd -qLB -t 0 wlan0
