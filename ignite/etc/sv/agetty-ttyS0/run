@@ -1,0 +1,5 @@
+#!/bin/sh
+service=$(basename $(pwd))
+tty=${service/*-}
+
+exec setsid /sbin/agetty -8 -s 9600 --noclear $tty linux
