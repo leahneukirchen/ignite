@@ -2,13 +2,17 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 # re-exec this script with a controlling tty
-[ $(tty) = /dev/console ] &&
-  exec setsid sh -c 'exec bash /etc/runit/1 </dev/tty1 >/dev/tty1 2>&1'
+if [ $(tty) = /dev/console ]; then
+  mountpoint -q /sys   || mount -t sysfs sys /sys -o nosuid,noexec,nodev
+  tty=$(</sys/class/tty/console/active)
+  tty=/dev/${tty##* }
+  exec setsid sh -c "exec bash /etc/runit/1 <$tty >$tty 2>&1"
+fi
 exec 2> >(sed 's/^/:: /')
 set -v
 
 trap : INT TSTP QUIT
-trap 'sulogin -p </dev/tty1 >/dev/tty1 2>&1' ERR
+trap 'sulogin -p <>$(tty) 2>&1' ERR
 
 echo -e '\nArch Linux\nhttp://www.archlinux.org\n'
 
