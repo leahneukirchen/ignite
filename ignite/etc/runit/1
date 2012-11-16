@@ -69,7 +69,7 @@ swapon -a
 [[ $TIMEZONE ]] && ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
 
 cp /var/lib/random-seed /dev/urandom &>/dev/null || true
-dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null
+( umask 077; dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null )
 
 install -m0664 -o root -g utmp /dev/null /run/utmp 
 rm -f /etc/nologin /forcefsck /forcequotacheck /fastboot
