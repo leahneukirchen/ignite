@@ -1,5 +1,5 @@
 CC=musl-gcc
-CFLAGS=-Wall -static -Os -Wl,-z -Wl,noexecstack -idirafter /usr/include
+CFLAGS=-Wall -static -Os -fno-asynchronous-unwind-tables -fno-stack-protector -Wl,-z -Wl,noexecstack -idirafter /usr/include
 
 all: pause
 
