@@ -1,3 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
+sv check syslog-ng >/dev/null   # else acpid will write to console...
 [[ -f /etc/conf.d/acpid ]] && . /etc/conf.d/acpid
 exec acpid -f $ACPID_ARGS >/dev/null 2>&1
