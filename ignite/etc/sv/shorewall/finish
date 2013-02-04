@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/sbin/shorewall stop 2>&1
