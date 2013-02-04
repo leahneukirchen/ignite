@@ -1,0 +1,4 @@
+#!/bin/sh
+. /etc/conf.d/privoxy
+exec 2>&1
+exec chpst -u $PRIVOXY_USER:$PRIVOXY_GROUP privoxy --no-daemon $PRIVOXY_ARGS $PRIVOXY_CONF
