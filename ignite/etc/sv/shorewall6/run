@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+[ -f /etc/sysconfig/shorewall6 ] && . /etc/sysconfig/shorewall6
+[ -f /etc/default/shorewall6 ] && . /etc/default/shorewall6
+/usr/sbin/shorewall6 -f start >/dev/null 2>&1
+exec chpst -b shorewall6 pause
