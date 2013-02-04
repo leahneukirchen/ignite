@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+[ -f /etc/sysconfig/shorewall ] && . /etc/sysconfig/shorewall
+[ -f /etc/default/shorewall ] && . /etc/default/shorewall
+/usr/sbin/shorewall -f start >/dev/null 2>&1
+exec chpst -b shorewall pause
