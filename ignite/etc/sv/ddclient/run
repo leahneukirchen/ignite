@@ -2,4 +2,4 @@
 
 [ -f /etc/conf.d/ddclient ] && . /etc/conf.d/ddclient
 
-exec /usr/sbin/ddclient -foreground -nosyslog ${EXTRA_ARGS}
+exec /usr/sbin/ddclient -foreground -syslog ${EXTRA_ARGS}
