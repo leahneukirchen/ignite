@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Ensure aiccu isn't restarted if it exits (could cause lock-out).
+sv once .
+
+# Ensure aiccu isn't configured to run daemonized.
+if ! grep -qE "^daemonize\s+false" /etc/aiccu.conf; then
+  echo "Error: aiccu must not run daemonized to be controlled by runit (see 'daemonize' in aiccu.conf)."
+  exit 1
+fi
+
+exec aiccu start 2>&1
