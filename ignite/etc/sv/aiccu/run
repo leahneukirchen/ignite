@@ -4,7 +4,7 @@
 sv once .
 
 # Ensure aiccu isn't configured to run daemonized.
-if ! grep -qE "^daemonize\s+false"; then
+if ! grep -qE "^daemonize\s+false" /etc/aiccu.conf; then
   echo "Error: aiccu must not run daemonized to be controlled by runit (see 'daemonize' in aiccu.conf)."
   exit 1
 fi
