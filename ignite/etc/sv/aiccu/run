@@ -1,3 +1,8 @@
 #!/bin/sh
 
+if ! grep -qE "^daemonize\s+false"; then
+  echo "Error: aiccu must not run daemonized to be controlled by runit (see 'daemonize' in aiccu.conf)."
+  exit 1
+fi
+
 exec aiccu start 2>&1
