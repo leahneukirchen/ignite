@@ -5,4 +5,4 @@ test $? -ne 0 ||
   exec /usr/sbin/nginx -c /etc/nginx/nginx.conf -g 'daemon off;'
 
 echo "nginx config test failed."
-sv down "$(pwd)"
+sv down .
