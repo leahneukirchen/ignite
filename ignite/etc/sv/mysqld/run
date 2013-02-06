@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/bin/mysqld --user=mysql 2>&1
