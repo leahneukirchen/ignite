@@ -1,0 +1,4 @@
+#!/bin/sh
+. /etc/conf.d/netcfg
+/usr/bin/netcfg-wpa_actiond $WIRELESS_INTERFACE
+exec chpst -b net-auto-wireless pause

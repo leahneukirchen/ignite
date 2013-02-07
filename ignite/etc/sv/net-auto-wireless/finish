@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/conf.d/netcfg
+exec /usr/bin/netcfg-wpa_actiond stop $WIRELESS_INTERFACE
