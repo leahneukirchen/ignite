@@ -36,8 +36,10 @@ swapoff -a
 umount -r -a -t nosysfs,noproc,nodevtmpfs,notmpfs
 
 [[ $USELVM = yes ]] && vgchange --sysinit -a n
-#cryptsetup luksClose data
-#[[ $USELVM = yes ]] && vgchange --sysinit -a n
+awk '/^#/ || /^$/ { next }
+     NF>2 { print "ignite unsupported crypttab: " $0 >"/dev/stderr"; next }
+     { system("cryptsetup luksClose " $1) }' </etc/crypttab
+[[ $USELVM = yes ]] && vgchange --sysinit -a n
 
 mount -o remount,ro /
 sleep 1

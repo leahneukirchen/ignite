@@ -51,8 +51,10 @@ ip link set up dev lo
 [[ $USEDMRAID = yes ]] && dmraid -i -ay
 [[ $USEBTRFS = yes ]] && btrfs device scan
 [[ $USELVM = yes ]] && vgchange --sysinit -a y
-#cryptsetup luksOpen /dev/mapper/vg1-data data
-#[[ $USELVM = yes ]] && vgchange --sysinit -a y
+awk '/^#/ || /^$/ { next }
+     NF>2 { print "ignite unsupported crypttab: " $0 >"/dev/stderr"; next }
+     { system("cryptsetup luksOpen " $2 " " $1) }' /etc/crypttab
+[[ $USELVM = yes ]] && vgchange --sysinit -a y
 
 [[ -f /forcefsck || " $(</proc/cmdline) " = *" forcefsck "* ]] && FORCEFSCK="-f"
 [[ -f /fastboot || " $(</proc/cmdline) " = *" fastboot "* ]] ||

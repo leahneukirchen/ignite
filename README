@@ -103,7 +103,7 @@ unmounts everything and lets runit turn off/reboot the machine.
 == Limitations
 
 - No support for non-UTF8 environments
-- No crypttab support (add luksOpen/luksClose manually for now)
+- Only simple crypttab support (no 3rd and 4th column)
 
 == Copyright
 
