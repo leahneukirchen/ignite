@@ -79,6 +79,8 @@ Services defined in both runlevels will keep running.
 * Keep sysvinit and sysvinit-tools installed, halt/reboot/shutdown
   will keep working, the warning about /dev/initctl can be ignored.
 
+* Restore core dumps: remove /usr/lib/sysctl.d/coredump.conf
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
