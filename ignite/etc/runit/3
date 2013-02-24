@@ -17,13 +17,6 @@ runlevel=$(readlink -f /etc/runit/runsvdir/current)
 runlevel=${runlevel#/run/service.}
 [[ $runlevel = /run/service ]] && ref="DAEMONS[@]" || ref="DAEMONS_${runlevel}[@]"
 
-for daemon in "${!ref}"; do
-  case ${daemon:0:1} in
-    !) ;;
-    *) [[ -d /etc/sv/$daemon ]] || /etc/rc.d/$daemon stop;;
-  esac
-done
-
 [ -x /etc/rc.local.shutdown ] && /etc/rc.local.shutdown
 
 dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null

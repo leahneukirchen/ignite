@@ -27,11 +27,7 @@ for runlevel in ${!DAEMONS_*}; do
   for daemon in "${!ref}"; do
     case ${daemon:0:1} in
       !) ;;
-      *) if [[ -d /etc/sv/$daemon ]]; then 
-	   ln -s /etc/sv/$daemon $d
-         else
-	   [[ $curlevel == $runlevel ]] && /etc/rc.d/$daemon start
-         fi
+      *) ln -s /etc/sv/$daemon $d;;
     esac
   done
 done

@@ -55,9 +55,7 @@ USELVM=no|yes
 HOSTNAME=   # or use /etc/hostname
 DAEMONS=(alsa syslog-ng crond)  # see below, prefix ! disables
 
-DAEMONS are checked against service directories in /etc/sv.  If they
-exist, they are started, else "/etc/rc.d/$DAEMON start" is run (for
-one-shot things).
+DAEMONS refer to service directories in /etc/sv.
 
 Other runlevels can be defined in /etc/rc.conf as well by setting
 $DAEMONS_foo to an array of services.  You can boot these by adding
@@ -98,8 +96,7 @@ changes won't be persistent.  Use plain "runsv /etc/sv/$DAEMON" if you
 just want to try a daemon and not permanently enable it.
 
 Use shutdown/halt/reboot to enter phase 3, which stops all services,
-runs the "/etc/rc.d/$DAEMON stop" actions when needed, unmounts
-everything and lets runit turn off/reboot the machine.
+unmounts everything and lets runit turn off/reboot the machine.
 
 == Limitations
 
