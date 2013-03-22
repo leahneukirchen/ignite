@@ -90,7 +90,7 @@ scripts are very straight forward, you can read them easily.
 Phase 1 configures the system initially.  It can be interrupted at
 almost any time by pressing C-c, which will drop you into a sulogin,
 so you can change stuff.  Upon exiting this emergency shell, booting
-resumes at that step
+resumes at that step.  STDOUT and STDERR are logged into dmesg.
 
 In phase 2, $DAEMONS scripts are linked to /run/runit/runsvdir/*, and
 runsvchdir picks them up.  You can fiddle around there yourself, but

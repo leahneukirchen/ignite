@@ -8,11 +8,13 @@ if [ $(tty) = /dev/console ]; then
   tty=/dev/${tty##* }
   exec setsid sh -c "exec bash /etc/runit/1 <$tty >$tty 2>&1"
 fi
-exec 2> >(sed 's/^/:: /')
+klog() { while IFS= read -r line; do echo "$1 $line" >/dev/kmsg; echo "$1 $line"; done; }
+exec 2> >(klog '::')
+exec  > >(klog '>>')
 set -v
 
 trap : INT TSTP QUIT
-trap 'sulogin -p <>$(tty) 2>&1' ERR
+trap 'exec >$(tty); sulogin -p <>$(tty) 2>&1' ERR
 
 echo -e '\nArch Linux\nhttp://www.archlinux.org\n'
 
