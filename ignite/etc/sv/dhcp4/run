@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/conf.d/dhcp
+exec /usr/sbin/dhcpd -4 -f --no-pid $DHCP4_ARGS
