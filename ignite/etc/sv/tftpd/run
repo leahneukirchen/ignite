@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/conf.d/tftpd
+exec /usr/sbin/in.tftpd -L $TFTPD_ARGS
