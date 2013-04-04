@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. /etc/conf.d/dhcp
+
+/usr/sbin/dhcpd -4 -p -q -pf "/run/dhcpd.pid" $DHCP4_ARGS;
