@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. /etc/conf.d/dhcp
+
+/usr/sbin/dhcpd -6 -f -q -pf "/run/dhcpd.pid" $DHCP6_ARGS;
