@@ -1,0 +1,7 @@
+#!/bin/sh
+. /etc/conf.d/named
+
+setcap cap_net_bind_service=eip /usr/sbin/named
+# filter -u named
+NAMED_ARGS=`echo ${NAMED_ARGS} | sed 's#-u [[:alnum:]]*##'`
+sudo -u named /usr/sbin/named ${NAMED_ARGS}
