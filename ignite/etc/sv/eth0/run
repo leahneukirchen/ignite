@@ -1,2 +1,3 @@
 #!/bin/sh
+ifconfig eth0 up
 exec dhcpcd -qLB -t 0 eth0
