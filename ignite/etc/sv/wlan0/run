@@ -1,2 +1,2 @@
 #!/bin/sh
-exec dhcpcd -qLB -t 0 wlan0
+exec dhcpcd -qLB -t 0 ${PWD##*/}
