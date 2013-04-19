@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/sbin/gpm -D -k 2>&1 | logger -s -p daemon.notice -t gpm
