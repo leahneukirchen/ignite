@@ -1,0 +1,16 @@
+# /etc/rc.conf - configuration file for initscripts/ignite
+
+HARDWARECLOCK="UTC"
+TIMEZONE="Europe/Berlin"
+KEYMAP="us"
+CONSOLEFONT=
+CONSOLEMAP=
+
+MODULES=()
+USEDMRAID="no"
+USEBTRFS="no"
+USELVM="no"
+
+HOSTNAME="localhost"
+
+DAEMONS=(agetty-tty{1,2,3,4,5,6} syslog-ng eth0 crond ntpd sshd)
