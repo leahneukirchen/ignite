@@ -81,6 +81,9 @@ Services defined in both runlevels will keep running.
 
 * Restore core dumps: remove /usr/lib/sysctl.d/coredump.conf
 
+* Revert network interface renaming:
+  ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
