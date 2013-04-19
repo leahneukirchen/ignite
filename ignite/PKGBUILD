@@ -14,7 +14,8 @@ source=(http://chneukirchen.org/releases/$pkgname-$pkgver.tar.gz)
 sha256sums=('f6757e125936f10fcc8c689abc15842cac5b3bd3bc36c93a4232fc0b07a9d365')
 
 # /etc/sv gets added below to this!
-backup=('etc/runit/1'
+backup=('etc/rc.conf'
+	'etc/runit/1'
 	'etc/runit/2'
 	'etc/runit/3'
         'etc/runit/ctrlaltdel')
@@ -37,4 +38,7 @@ package() {
   install -D -m0644 util/pause.1 $pkgdir/usr/share/man/man1/pause.1
   
   install -D -m0644 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+  install -D -m0644 ../README $pkgdir/usr/share/doc/$pkgname/README
+  sed -ne '/^[A-Z]\+=/{s:^:#: ; p}' ../README > rc.conf
+  install -D -m0644 rc.conf $pkgdir/etc/rc.conf
 }
