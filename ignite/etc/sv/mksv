@@ -2,4 +2,4 @@
 SRV=${1?usage: $0 NAME}
 mkdir "$SRV"
 echo "#!/bin/sh" | install -m755 /dev/stdin "$SRV/run"
-ln -s /run/runit/supervise."$SRV" "$SRV/supervise"
+ln -s /run/runit/supervise."$(echo "$SRV" | tr / -)" "$SRV/supervise"
