@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/conf.d/netcfg
+exec /usr/bin/netcfg iface-down $WIRED_INTERFACE
