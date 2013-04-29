@@ -1,0 +1,3 @@
+#!/bin/sh
+. /etc/conf.d/netcfg
+exec /usr/bin/ifplugd -i $WIRED_INTERFACE -r /etc/ifplugd/netcfg.action -fIns
