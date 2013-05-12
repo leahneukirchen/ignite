@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/sbin/nginx -g 'daemon off;' 2>&1
+exec /usr/bin/nginx -g 'daemon off;' 2>&1
