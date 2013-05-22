@@ -41,7 +41,7 @@ loadkeys -q ${KEYMAP:-us}
 TZ=$TIMEZONE hwclock --systz \
   ${HARDWARECLOCK:+--$(echo $HARDWARECLOCK |tr A-Z a-z) --noadjfile}
 
-udevd --daemon
+/usr/lib/systemd/systemd-udevd --daemon
 udevadm trigger --action=add --type=subsystems
 udevadm trigger --action=add --type=devices
 modprobe -ab "" "${MODULES[@]}" || true
