@@ -28,16 +28,15 @@ about.  ignite also supports read-only root file systems.
 
 READ THIS CAREFULLY OR YOUR SYSTEM WILL NOT BOOT SUCCESSFULLY.
 
+If you booted with sysvinit, make a copy of /usr/bin/init to
+/usr/bin/init.sysv, else you cannot reboot cleanly.
+
 Install runit-musl and ignite-git from AUR.  Ensure that you have at least
 one agetty-tty1 process in DAEMONS.  Note that services mentioned in
 /etc/inittab will not be picked up anymore.
 
-Reboot with "init.sysv 6" after installation if you booted with sysvinit.
-
-I recommend putting this line in /etc/pacman.conf to prevent sysvinit
-from overwriting runit-init:
-
-  NoUpgrade = sbin/init
+You can reboot with "init.sysv 6" after installation if you booted
+with sysvinit.
 
 == Configuration
 
@@ -76,9 +75,6 @@ Services defined in both runlevels will keep running.
 * If you use syslog-ng, ensure that you source from
   'unix-dgram("/dev/log");' in /etc/syslog-ng/syslog-ng.conf.
 
-* Keep sysvinit and sysvinit-tools installed, halt/reboot/shutdown
-  will keep working, the warning about /dev/initctl can be ignored.
-
 * Restore core dumps: remove /usr/lib/sysctl.d/coredump.conf
 
 * Revert network interface renaming:
@@ -107,6 +103,7 @@ unmounts everything and lets runit turn off/reboot the machine.
 
 - No support for non-UTF8 environments
 - Only simple crypttab support (no 3rd and 4th column)
+- Some irrelevant features of shutdown/halt/reboot are not implemented
 
 == Copyright
 

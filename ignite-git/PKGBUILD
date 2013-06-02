@@ -1,6 +1,6 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=ignite-git
-pkgver=20130419
+pkgver=20130602
 pkgrel=1
 pkgdesc="A replacement for sysvinit based upon runit, Git HEAD version"
 url="https://github.com/chneukirchen/ignite"
