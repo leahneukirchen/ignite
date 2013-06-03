@@ -34,7 +34,7 @@ if [ "$action" = "cancel" ]; then
   exit
 fi
 
-echo $$ >/tmp/shutdown.pid
+echo $$ >/run/runit/shutdown.pid
 
 case "$time" in
   now) time=0;;
