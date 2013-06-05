@@ -5,7 +5,7 @@
 pkgname=runit-musl
 _pkgname=runit
 pkgver=2.1.1
-pkgrel=5
+pkgrel=6
 pkgdesc="A service supervision scheme, compiled with musl"
 url="http://smarden.org/runit/"
 license=('custom')
@@ -43,8 +43,8 @@ package() {
   install -d -m0755 "$pkgdir/var"
   ln -s ../run/runit/runsvdir/current "${pkgdir}/var/service" || return 1
 
-  install -d -m0755 $pkgdir/sbin
-  install -s -m0755 $srcdir/admin/$_pkgname-$pkgver/src/{chpst,runit,runit-init,runsv,runsvchdir,runsvdir,sv,svlogd,utmpset} $pkgdir/sbin
+  install -d -m0755 "$pkgdir/usr/bin"
+  install -s -m0755 $srcdir/admin/$_pkgname-$pkgver/src/{chpst,runit,runit-init,runsv,runsvchdir,runsvdir,sv,svlogd,utmpset} $pkgdir/usr/bin
 
   install -d -m0755 $pkgdir/usr/share/man/man8
   install -m0644 $srcdir/admin/$_pkgname-$pkgver/man/* $pkgdir/usr/share/man/man8
