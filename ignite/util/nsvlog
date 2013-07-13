@@ -1,0 +1,7 @@
+#!/bin/bash
+service=$(basename $(dirname $(pwd)))
+while [ 1 ]
+do
+ read line
+ [ -n "$line" ] && /usr/bin/logger -p daemon.notice -t $service "$line"
+done
