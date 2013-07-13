@@ -47,7 +47,8 @@ package() {
   install -D -m0755 util/reboot $pkgdir/usr/bin/reboot
   install -D -m0755 util/shutdown.sh $pkgdir/usr/bin/shutdown
   install -D -m0755 util/runlevel.sh $pkgdir/usr/bin/runlevel
-  
+  install -D -m0755 util/nsvlog $pkgdir/usr/bin/nsvlog  
+
   install -D -m0644 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
   install -D -m0644 ../README $pkgdir/usr/share/doc/$pkgname/README
   install -D -m0644 rc.conf.example $pkgdir/usr/share/doc/$pkgname/rc.conf.example

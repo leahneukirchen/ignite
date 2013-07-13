@@ -1,0 +1,2 @@
+#!/bin/bash
+exec dhcpcd -B -d -D -H -L -t 0
