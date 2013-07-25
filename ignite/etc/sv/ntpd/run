@@ -1,4 +1,2 @@
 #!/bin/sh
-. /etc/conf.d/ntpd.conf
-
-exec ntpd $NTPD_ARGS -n 2>&1
+exec ntpd -g -u ntp:ntp -n 2>&1
