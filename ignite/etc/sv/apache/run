@@ -1,0 +1,4 @@
+#!/bin/bash -e
+[ -r /usr/bin/envvars ] && . /usr/bin/envvars
+[ -r /etc/conf.d/apache ] && . /etc/conf.d/apache
+exec httpd -DNO_DETACH 2>&1
