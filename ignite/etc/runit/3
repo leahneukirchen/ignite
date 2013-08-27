@@ -21,6 +21,8 @@ runlevel=${runlevel#/run/service.}
 
 dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 &>/dev/null
 
+hwclock --systohc ${HARDWARECLOCK:+--$(echo $HARDWARECLOCK |tr A-Z a-z)}
+
 halt -w  # for utmp
 
 [[ $USELVM = yes ]] && vgchange --monitor n
