@@ -1,0 +1,2 @@
+#!/bin/sh
+exec logger -t opensmtpd -p mail.info
