@@ -29,9 +29,9 @@ halt -w  # for utmp
 
 udevadm control --exit
 
-killall5 -15
-i=10; while killall5 -18 && (( i-- )) ; do echo -n .; sleep 0.5; done; echo
-killall5 -9
+pkill --inverse -s0,1 -TERM
+sleep 5
+pkill --inverse -s0,1 -KILL
 
 umount /tmp
 swapoff -a
