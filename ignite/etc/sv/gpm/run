@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+/usr/sbin/gpm -m /dev/input/mice -t imps2
+exec chpst -b gpm pause
