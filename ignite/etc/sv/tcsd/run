@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/tcsd -f 2>&1
