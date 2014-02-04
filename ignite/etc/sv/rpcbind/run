@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+exec 2>&1
+# run in debug mode to prevent forking
+exec rpcbind -d
