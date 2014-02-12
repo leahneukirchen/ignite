@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/exportfs -a -r
+true  # don't hup the pause(1) process

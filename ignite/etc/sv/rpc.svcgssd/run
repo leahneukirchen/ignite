@@ -1,0 +1,4 @@
+#!/bin/sh -e
+. /etc/conf.d/nfs-server.conf
+sv check rpcbind >/dev/null
+exec /usr/bin/rpc.svcgssd -f $SVCGSSD_OPTS 2>&1

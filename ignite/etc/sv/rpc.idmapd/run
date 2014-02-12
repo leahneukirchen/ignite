@@ -1,0 +1,4 @@
+#!/bin/sh
+. /etc/conf.d/nfs-common.conf
+sv check nfsd >/dev/null
+exec /usr/bin/rpc.idmapd -f $IDMAPD_OPTS 2>&1

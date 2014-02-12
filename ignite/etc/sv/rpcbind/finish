@@ -1,0 +1,2 @@
+#!/bin/sh
+umount /var/lib/nfs/rpc_pipefs || true

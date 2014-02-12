@@ -1,0 +1,6 @@
+#!/bin/sh -e
+. /etc/conf.d/nfs-server.conf
+sv check rpcbind >/dev/null
+/usr/bin/rpc.nfsd $NFSD_OPTS $NFSD_COUNT
+/usr/bin/exportfs -a
+exec chpst -b nfsd pause

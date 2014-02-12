@@ -80,6 +80,13 @@ Services defined in both runlevels will keep running.
 * Revert network interface renaming:
   ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules
 
+* For NFS server support, you need:
+  nfsd rpcbind rpc.idmapd rpc.mountd rpc.statd
+  (and, if desired: rpc.gssd rpc.svcgssd)
+
+* For NFS client support, you need:
+  rpcbind rpc.statd (and, if desired: rpc.gssd)
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts

@@ -1,0 +1,4 @@
+#!/bin/sh -e
+. /etc/conf.d/nfs-common.conf
+sv check rpcbind >/dev/null
+exec /usr/bin/rpc.gssd -f $GSSD_OPTS 2>&1

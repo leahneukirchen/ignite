@@ -1,0 +1,2 @@
+#!/bin/sh
+exec logger -t rpc.gssd -p daemon.notice

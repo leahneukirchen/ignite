@@ -1,0 +1,4 @@
+#!/bin/sh -e
+. /etc/conf.d/nfs-common.conf
+sv check nfsd >/dev/null
+exec /usr/bin/rpc.mountd -F $MOUNTD_OPTS
