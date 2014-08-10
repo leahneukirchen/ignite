@@ -1,2 +1,2 @@
 #!/bin/sh
-exec dhcpcd -qLB -t 0 ${PWD##*/}
+exec dhcpcd -qLB -t 0 -C wpa_supplicant -C timezone -C hostname ${PWD##*/}
