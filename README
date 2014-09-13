@@ -87,6 +87,12 @@ Services defined in both runlevels will keep running.
 * For NFS client support, you need:
   rpcbind rpc.statd (and, if desired: rpc.gssd)
 
+* With xorg-server 1.16.0+, you may need a file /etc/X11/Xwrapper.config
+  with following contents (also see Xorg.wrap(1))
+
+      needs_root_rights = yes
+      allowed_users = anybody
+
 == How it works
 
 ignite uses runit, with "1 2 3"-scripts adapted from Arch initscripts
