@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ ! -d /run/mysqld ] && install -d -g mysql -o mysql /run/mysqld &>/dev/null
+
+exec /usr/bin/mysqld --user=mysql 2>&1
