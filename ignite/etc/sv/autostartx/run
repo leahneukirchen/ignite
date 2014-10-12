@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo /etc/sv/autostartx/run needs adjustments
+#exec /bin/su -c "export LANG=de_DE.UTF-8 ; cd ~; /usr/bin/startx ; sudo /sbin/init 0 ; sleep 60" - werner
+exec pause
