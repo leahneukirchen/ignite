@@ -50,5 +50,7 @@ package() {
   
   install -D -m0644 ../COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
   install -D -m0644 ../README $pkgdir/usr/share/doc/$pkgname/README
+  # copy example too /etc
+  install -D -m0644 rc.conf.example $pkgdir/etc/rc.conf
   install -D -m0644 rc.conf.example $pkgdir/usr/share/doc/$pkgname/rc.conf.example
 }
